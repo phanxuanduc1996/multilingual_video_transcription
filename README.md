@@ -1,69 +1,65 @@
-# Multilingual Video Transcription using Whisper
+![banner img](https://i.ibb.co/4tzG9LY/Video2-Text-Banner.png)
 
-A Python command-line tool for downloading and/or transcribing videos using OpenAI's Whisper open-source model. It supports YouTube video URLs, playlists, videos already downloaded locally, or YouTube URLs from a JSON file. It can download videos in different resolutions, and the resulting transcriptions are saved in a JSON file.
+# Video2Text
 
-## Setup 
+Video2Text (https://video2text.de) allows you to easily convert a youtube video to text. This process is also called transcription.
+It is completely free to use and runs locally on your pc.
 
-1. Clone the repository:
-```bash 
-git clone https://github.com/abmami/Multilingual-Video-Transcription-using-Whisper.git
-cd Multilingual-Video-Transcription-using-Whisper
+## Video Tutorial
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/b9oyBebJCK0)](https://youtu.be/b9oyBebJCK0)
+
+## Written Tutorial
+
+[PLEASE MAKE SURE YOU HAVE FFMPEG INSTALLED!](https://www.wikihow.com/Install-FFmpeg-on-Windows)
+
+`$ apt-get install ffmpeg`
+or
+`$ brew install ffmpeg`
+
+---
+
+0. clone the repo with `git clone https://github.com/XamHans/video-2-text.git`
+1. cd into webserver
+2. pip3 install -r requirements.txt
+3. streamlit run app.py
+4. open http://localhost:8501 in your browser
+
+## Help
+
+If you should have any troubles try to re-install pytube.
+
 ```
-2. Create and activate a virtual environment:
-```bash 
-python3 -m venv venv
-source venv/bin/activate  # On Linux
-venv\Scripts\activate.bat  # On Windows
-```
-3. Install the required Python packages:
-```bash 
-pip install -r requirements.txt
-
-```
-4. Install FFmpeg:
-    - On Ubuntu: 
-    ```bash 
-    sudo apt-get install ffmpeg
-    ```
-    - On Windows: 
-      - Download the latest static build of FFmpeg from the official website: https://ffmpeg.org/download.html#build-windows
-      - Extract the downloaded ZIP file to a folder on your system.
-      - Add the path to the bin folder of the extracted FFmpeg to your system's PATH environment variable
-
-## Usage
-
-- Transcribe videos from the urls JSON file in data folder using the following command:
-```bash 
-python transcribe.py
-```
-- Transcribe videos that have already been downloaded locally and stored in the folder data/videos using the following command:
-```bash 
-python transcribe.py --locally
-```
-- Transcribe a Youtube playlist using the following command:
-```bash 
-python transcribe.py --playlist YT_PLAYLIST_URL
+pip uninstall pytube
+pip uninstall pytube3
+pip install pytube
 ```
 
-- Transcribe a single Youtube Video using the following command:
-```bash 
-python transcribe.py --url YT_VIDEO_URL
-```
+if you should run into an error where streamlit is not recognized by your terminal, try this command in your terminal: export PATH="$HOME/.local/bin:$PATH"
 
+If you still have problems, create a new issue.
 
-### Additional Options
+## Support
 
-- `--res`: The resolution of the video(s) to download (default: 360).
-- `--no-save`: Add this to delete the video(s) after transcription.
+If you want to support me, you can buy me a coffee: https://www.buymeacoffee.com/hayerhans
+Your support means a lot to me, thanks!
 
-### Configuration
+## Author
 
-The tool uses the following paths:
+Johannes Hayer
+https://jhayer.tech
 
-- `input_path`: The path to the input file (default: `data/urls.json`).
-- `videos_path`: The path to the folder where the videos are saved (default: `data/videos`).
-- `output_path`: The path to the output file (default: `data/output.json`).
+## Version History
 
-The tool also uses the Whisper's small model. The size of the small model is ~461M. You can change it in the code to use the base or another model.
+- 0.2
+  used streamlit for frontend
+- 0.1
+  - Initial Release
 
-- `model_name`: The name of the Whisper model to use (default: `small`).
+## License
+
+This project is licensed under the MIT license
+
+## Acknowledgments
+
+OpenAI Whisper\* [here](https://github.com/openai/whisper)
