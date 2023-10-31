@@ -1,65 +1,33 @@
-![banner img](https://i.ibb.co/4tzG9LY/Video2-Text-Banner.png)
+# Sharetape-Speech-To-Text
 
-# Video2Text
+Run speech to text for video for free. This outputs 3 files, 1 `words.json` file that has all of the words said along with their timing and confidence, 1 `transcript.txt` with just all the words read, and 1 `captions.srt` file which is the captions for that video.
 
-Video2Text (https://video2text.de) allows you to easily convert a youtube video to text. This process is also called transcription.
-It is completely free to use and runs locally on your pc.
-
-## Video Tutorial
-
-[![](https://markdown-videos-api.jorgenkh.no/youtube/b9oyBebJCK0)](https://youtu.be/b9oyBebJCK0)
-
-## Written Tutorial
-
-[PLEASE MAKE SURE YOU HAVE FFMPEG INSTALLED!](https://www.wikihow.com/Install-FFmpeg-on-Windows)
-
-`$ apt-get install ffmpeg`
-or
-`$ brew install ffmpeg`
-
----
-
-0. clone the repo with `git clone https://github.com/XamHans/video-2-text.git`
-1. cd into webserver
-2. pip3 install -r requirements.txt
-3. streamlit run app.py
-4. open http://localhost:8501 in your browser
-
-## Help
-
-If you should have any troubles try to re-install pytube.
+## Install requirements
 
 ```
-pip uninstall pytube
-pip uninstall pytube3
-pip install pytube
+$ python3 -m venv venv
+$ source venv/bin/activate
+$ pip install -r requirements.txt
 ```
 
-if you should run into an error where streamlit is not recognized by your terminal, try this command in your terminal: export PATH="$HOME/.local/bin:$PATH"
+## Download Vosk Library
 
-If you still have problems, create a new issue.
+This is the language library this speech to text uses. Download this [Here](https://alphacephei.com/vosk/models/vosk-model-en-us-0.42-gigaspeech.zip)
 
-## Support
+Once downloaded unzip in your project directory.
 
-If you want to support me, you can buy me a coffee: https://www.buymeacoffee.com/hayerhans
-Your support means a lot to me, thanks!
+## Speech to text with video
 
-## Author
+Video must be `.mp4` or `.mov`
 
-Johannes Hayer
-https://jhayer.tech
+```
+$ python main.py --video videoname.mp4
+```
 
-## Version History
+## Speech to text with audio
 
-- 0.2
-  used streamlit for frontend
-- 0.1
-  - Initial Release
+Video must be `.wav`
 
-## License
-
-This project is licensed under the MIT license
-
-## Acknowledgments
-
-OpenAI Whisper\* [here](https://github.com/openai/whisper)
+```
+$ python main.py --audio audioname.wav
+```
