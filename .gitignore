@@ -2,3 +2,7 @@ webserver/__pycache__
 webserver/__pycache__/
 webserver/__pycache__/*
 */__pycache__/*
+cookies.json
+response.mp3
+audio.wav
+audio_prompt.wav
