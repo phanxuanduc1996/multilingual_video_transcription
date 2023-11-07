@@ -1,5 +1,8 @@
+import pdb
+import numpy as np
 import streamlit as st
-from business_logic import transcribe_video_orchestrator
+import speech_recognition as sr
+from business_logic import transcribe_video_orchestrator, transcribe_video_streaming
 
 
 def open_buy_me_coffee():
@@ -8,58 +11,64 @@ def open_buy_me_coffee():
 
 
 def main():
-    st.title("Video2Text")
- # Embed the Buy Me a Coffee widget using the provided <script> tag
-    buy_me_coffee_script = """
-         <script
-            data-name="BMC-Widget"
-            data-cfasync="false"
-            src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
-            data-id="hayerhans"
-            data-description="If you like this, please consider supporting this work"
-            data-message="If you like this, please consider supporting me!"
-            data-color="#BD5FFF"
-            data-position="Right"
-            data-x_margin="18"
-            data-y_margin="18">
-        </script>
-    """
-    st.components.v1.html(buy_me_coffee_script)
-    st.title("Support Me on Buy Me a Coffee")
-    st.write(
-        "If you find this app helpful and would like to support me, you can buy me a coffee!")
-    st.markdown(buy_me_coffee_script, unsafe_allow_html=True)
+    st.title("Real-time Speech Recognition")
 
-    # User input: YouTube URL
-    url = st.text_input("Enter YouTube URL or Local path:")
+    # # User input: YouTube URL
+    # url = st.text_input("Enter YouTube URL or Local path:")
 
     # User input: model
     models = ["tiny", "base", "small", "medium", "large"]
     model = st.selectbox("Select Model:", models)
     st.write(
         "If you take a smaller model it is faster but not as accurate, whereas a larger model is slower but more accurate.")
-    if st.button("Transcribe"):
-        if url:
-            transcript = transcribe_video_orchestrator(url, model)
 
-            if transcript:
-                st.subheader("Transcription:")
-                st.write(transcript)
-            else:
-                st.error("Error occurred while transcribing.")
-                st.write("Please try again.")
+    # Create a speech recognizer & microphone object
+    recognizer = sr.Recognizer()
+    microphone = sr.Microphone(device_index=0)
 
-    st.markdown('<div style="margin-top: 450px;"</div>',
-                unsafe_allow_html=True)
+    with microphone as source:
+        st.info("Listening...")
+        recognizer.adjust_for_ambient_noise(source)
 
-    st.write(
-        "If you need help or have questions about Video2Text, feel free to reach out to me.")
+        while True:
+            try:
+                audio = recognizer.listen(source, timeout=None)
+                audio_data = audio.get_wav_data()
+                data_s16 = np.frombuffer(
+                    audio_data, dtype=np.int16, count=len(audio_data)//2, offset=0)
+                float_data = data_s16.astype(np.float32, order='C') / 32768.0
+                pdb.set_trace()
 
-    st.write("Please enter your message below:")
-    user_message = st.text_area("Your Message:")
+                # Recognize the audio and convert it to text
+                # transcript = recognizer.recognize_google(audio)
+                transcript = transcribe_video_streaming(float_data, model)
+                pdb.set_trace()
 
-    st.markdown(
-        f'<a href="mailto:contact@jhayer.tech?subject=Video2Text-Help&body={user_message}">Send Mail</a>', unsafe_allow_html=True)
+                if transcript:
+                    st.subheader("Transcription:")
+                    st.write(transcript)
+                else:
+                    st.error("Error occurred while transcribing.")
+                    st.write("Please try again.")
+
+            except sr.UnknownValueError:
+                # If the speech recognizer could not understand the audio
+                st.warning("Could not understand audio")
+
+            except sr.RequestError as e:
+                # If there was an error with the speech recognition service
+                st.error(f"Error: {e}")
+
+    # if st.button("Transcribe"):
+    #     if url:
+    #         transcript = transcribe_video_orchestrator(url, model)
+
+    #         if transcript:
+    #             st.subheader("Transcription:")
+    #             st.write(transcript)
+    #         else:
+    #             st.error("Error occurred while transcribing.")
+    #             st.write("Please try again.")
 
 
 if __name__ == "__main__":
