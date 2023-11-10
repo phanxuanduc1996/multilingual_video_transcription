@@ -1,0 +1,6 @@
+pytube
+openai-whisper
+streamlit
+chardet
+speechrecognition
+streamlit-audiorec
