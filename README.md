@@ -19,11 +19,12 @@ or
 
 ---
 
-0. clone the repo with `git clone https://github.com/XamHans/video-2-text.git`
-1. cd into webserver
-2. pip3 install -r requirements.txt
-3. streamlit run app.py
-4. open http://localhost:8501 in your browser
+0. clone the repo with `git clone https://github.com/phanxuanduc1996/multilingual_video_transcription/`
+1. git checkout XamHans__video_2_text
+2. cd into webserver
+3. pip3 install -r requirements.txt
+4. streamlit run ASR_Demo.py --server.sslCertFile=server.crt --server.sslKeyFile=server.key
+5. open http://0.0.0.0:8501 in your browser
 
 ## Help
 

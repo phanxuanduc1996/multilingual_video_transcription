@@ -30,7 +30,7 @@ def transcribe_video_streaming(audio, model_name):
 
 def transcribe_streaming(audio, model_name="medium"):
     print("Transcribing streaming...")
-    print("Using model:", model_name)
+    print("Using model: ", model_name)
 
     model = whisper.load_model(model_name)
     result = model.transcribe(audio, )
@@ -40,8 +40,8 @@ def transcribe_streaming(audio, model_name="medium"):
 
 
 def transcribe(video: dict, model_name="medium"):
-    print("Transcribing...", video['name'])
-    print("Using model:", model_name)
+    print("Transcribing...")
+    print("Using model: ", model_name)
 
     model = whisper.load_model(model_name)
     result = model.transcribe(video['path'], )
