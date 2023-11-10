@@ -1,6 +1,4 @@
-import numpy as np
 import streamlit as st
-from st_audiorec import st_audiorec
 from tempfile import NamedTemporaryFile
 from business_logic import transcribe_video_orchestrator
 
