@@ -1,4 +1,5 @@
 import streamlit as st
+from datetime import datetime
 from tempfile import NamedTemporaryFile
 from business_logic import transcribe_video_orchestrator
 
@@ -46,6 +47,14 @@ if st.button("Transcribe"):
         st.write("Please try again.")
 
     print("\nTranscript: {}".format(transcript))
+
+    time_now = datetime.now().strftime(r"%d/%m/%Y %H:%M:%S")
+
+    log_file = open("logs/log_file.txt", "a")
+    log_file.write("\n" + time_now +
+                   "\t UPLOADED_FILE - \t Model: {}".format(model))
+    log_file.write(transcript + "\n")
+    log_file.close()
 
 st.markdown('<div style="margin-top: 450px;"</div>',
             unsafe_allow_html=True)

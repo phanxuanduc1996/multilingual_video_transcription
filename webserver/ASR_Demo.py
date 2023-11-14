@@ -1,5 +1,6 @@
 import streamlit as st
 import noisereduce as nr
+from datetime import datetime
 from st_audiorec import st_audiorec
 from tempfile import NamedTemporaryFile
 from business_logic import transcribe_video_orchestrator
@@ -45,6 +46,14 @@ if wav_audio_data is not None:
 
     print("MODEL: {}".format(model))
     print("\nTranscript: {}".format(transcript))
+
+    time_now = datetime.now().strftime(r"%d/%m/%Y %H:%M:%S")
+
+    log_file = open("logs/log_file.txt", "a")
+    log_file.write("\n" + time_now +
+                   "\t STREAMING - \t Model: {}".format(model))
+    log_file.write(transcript + "\n")
+    log_file.close()
 
 st.markdown('<div style="margin-top: 450px;"</div>',
             unsafe_allow_html=True)
