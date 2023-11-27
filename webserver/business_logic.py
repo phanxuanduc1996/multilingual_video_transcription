@@ -1,4 +1,5 @@
 import os
+import shutil
 import tempfile
 from pprint import pprint
 import whisper
@@ -6,7 +7,7 @@ from pytube import YouTube
 from utils import is_youtube_url
 
 
-def transcribe_video_orchestrator(url: str,  model_name: str):
+def transcribe_video_orchestrator(url: str,  model_name: str, time_now: str):
     if is_youtube_url(url):
         video = download_youtube_video(url)
     else:
@@ -18,6 +19,11 @@ def transcribe_video_orchestrator(url: str,  model_name: str):
 
             video = {"name": video_name,
                      "thumbnail": video_thumbnail, "path": video_path}
+
+            new_path = "logs/videos/" + video_name
+            save_path = "logs/videos/" + time_now + "__" + video_name
+            shutil.copy(video_path, new_path)
+            os.rename(new_path, save_path)
 
     transcription = transcribe(video, model_name)
     return transcription

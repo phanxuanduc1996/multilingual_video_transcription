@@ -33,11 +33,14 @@ st.divider()
 
 if st.button("Transcribe"):
     if (uploaded_file is not None):
-        with NamedTemporaryFile() as temp:
+        time_now = datetime.now().strftime(r"%Y%m%d_%H_%M_%S")
+
+        with NamedTemporaryFile(suffix=".wav") as temp:
             temp.write(uploaded_file.getvalue())
 
             temp.seek(0)
-            transcript = transcribe_video_orchestrator(temp.name, model)
+            transcript = transcribe_video_orchestrator(
+                temp.name, model, time_now)
 
     if transcript:
         st.subheader("Transcription:")
@@ -47,8 +50,6 @@ if st.button("Transcribe"):
         st.write("Please try again.")
 
     print("\nTranscript: {}".format(transcript))
-
-    time_now = datetime.now().strftime(r"%d/%m/%Y %H:%M:%S")
 
     log_file = open("logs/log_file.txt", "a")
     log_file.write("\n" + time_now +

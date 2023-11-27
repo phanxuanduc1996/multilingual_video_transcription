@@ -40,7 +40,8 @@ st.divider()
 
 if st.button("Transcribe"):
     if url:
-        transcript = transcribe_video_orchestrator(url, model)
+        time_now = datetime.now().strftime(r"%Y%m%d_%H_%M_%S")
+        transcript = transcribe_video_orchestrator(url, model, time_now)
 
     if transcript:
         st.subheader("Transcription:")
@@ -50,8 +51,6 @@ if st.button("Transcribe"):
         st.write("Please try again.")
 
     print("\nTranscript: {}".format(transcript))
-
-    time_now = datetime.now().strftime(r"%d/%m/%Y %H:%M:%S")
 
     log_file = open("logs/log_file.txt", "a")
     log_file.write("\n" + time_now +

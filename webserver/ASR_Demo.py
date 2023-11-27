@@ -1,5 +1,5 @@
 import streamlit as st
-import noisereduce as nr
+# import noisereduce as nr
 from datetime import datetime
 from st_audiorec import st_audiorec
 from tempfile import NamedTemporaryFile
@@ -21,6 +21,8 @@ models = ["tiny", "base", "small", "medium", "large"]
 
 wav_audio_data = st_audiorec()
 if wav_audio_data is not None:
+    time_now = datetime.now().strftime(r"%Y%m%d_%H_%M_%S")
+
     # st.audio(wav_audio_data, format='audio/wav', start_time=0)
 
     st.divider()
@@ -31,11 +33,12 @@ if wav_audio_data is not None:
     #     "If you take a smaller model it is faster but not as accurate, whereas a larger model is slower but more accurate.")
     # st.divider()
 
-    model = "small"
-    with NamedTemporaryFile() as temp:
+    model = "large"
+    with NamedTemporaryFile(suffix=".wav") as temp:  # , delete=False
         temp.write(wav_audio_data)
         temp.seek(0)
-        transcript = transcribe_video_orchestrator(temp.name, model)
+        print("\n\ntemp.name: ", temp.name)
+        transcript = transcribe_video_orchestrator(temp.name, model, time_now)
 
     if transcript or transcript == "":
         st.subheader("Transcription:")
@@ -46,8 +49,6 @@ if wav_audio_data is not None:
 
     print("MODEL: {}".format(model))
     print("\nTranscript: {}".format(transcript))
-
-    time_now = datetime.now().strftime(r"%d/%m/%Y %H:%M:%S")
 
     log_file = open("logs/log_file.txt", "a")
     log_file.write("\n" + time_now +
