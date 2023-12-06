@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 from datetime import datetime
-from utils import is_youtube_url
+from utils import is_youtube_url, write_json
 from business_logic import transcribe_video_orchestrator
 
 st.set_page_config(
@@ -41,7 +41,8 @@ st.divider()
 if st.button("Transcribe"):
     if url:
         time_now = datetime.now().strftime(r"%Y%m%d_%H_%M_%S")
-        transcript = transcribe_video_orchestrator(url, model, time_now)
+        trans_output = transcribe_video_orchestrator(url, model, time_now)
+        transcript = trans_output["text"]
 
     if transcript:
         st.subheader("Transcription:")
@@ -52,11 +53,13 @@ if st.button("Transcribe"):
 
     print("\nTranscript: {}".format(transcript))
 
-    log_file = open("logs/log_file.txt", "a")
-    log_file.write("\n" + time_now +
-                   "\t YOUTUBE_URL - \t Model: {}".format(model))
-    log_file.write(transcript + "\n")
-    log_file.close()
+    log_transcript_text = open("logs/log_transcript_text.txt", "a")
+    log_transcript_text.write("\n" + time_now +
+                              "\t YOUTUBE_URL - \t Model: {}".format(model))
+    log_transcript_text.write(transcript + "\n")
+    log_transcript_text.close()
+
+    write_json(time_now, trans_output)
 
 st.markdown('<div style="margin-top: 450px;"</div>',
             unsafe_allow_html=True)
