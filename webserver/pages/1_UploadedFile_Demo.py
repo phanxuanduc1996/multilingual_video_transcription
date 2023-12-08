@@ -16,7 +16,8 @@ st.divider()
 
 print("\n\n************** TRY 2: UPLOADED FILE *******************")
 
-models = ["tiny", "base", "small", "medium", "large"]
+models = ["tiny", "base", "small", "medium",
+          "large", "large-v2"]  # , "large-v3"
 uploaded_file = st.file_uploader("Upload your file here:", type=[
     "wav", "flac", "m4a", "mp3", "wma", "aiff", "aac", "alac"], accept_multiple_files=False)
 

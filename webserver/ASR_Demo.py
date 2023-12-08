@@ -18,7 +18,8 @@ st.divider()
 
 print("\n\n************** TRY 1: STREAMING DEMO *******************")
 
-models = ["tiny", "base", "small", "medium", "large"]
+models = ["tiny", "base", "small", "medium",
+          "large", "large-v2"]  # , "large-v3"
 
 wav_audio_data = st_audiorec()
 if wav_audio_data is not None:
@@ -34,7 +35,7 @@ if wav_audio_data is not None:
     #     "If you take a smaller model it is faster but not as accurate, whereas a larger model is slower but more accurate.")
     # st.divider()
 
-    model = "large"
+    model = "large-v2"
     with NamedTemporaryFile(suffix=".wav") as temp:  # , delete=False
         temp.write(wav_audio_data)
         temp.seek(0)

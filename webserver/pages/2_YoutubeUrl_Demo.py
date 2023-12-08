@@ -17,7 +17,8 @@ st.divider()
 
 print("\n\n************** TRY 3: YOUTUBE YRL + SERVER LOCAL PATH *******************")
 
-models = ["tiny", "base", "small", "medium", "large"]
+models = ["tiny", "base", "small", "medium",
+          "large", "large-v2"]  # , "large-v3"
 url = st.text_input("Enter YouTube URL or Server local path:",
                     key="url")
 if url:
