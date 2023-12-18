@@ -1,12 +1,17 @@
 import os
+import shutil
 import tempfile
 from pprint import pprint
 import whisper
 from pytube import YouTube
 from utils import is_youtube_url
 
+LOG_VIDEO_PATH = "logs/videos/"
+if not os.path.exists(LOG_VIDEO_PATH):
+    os.makedirs(LOG_VIDEO_PATH)
 
-def transcribe_video_orchestrator(url: str,  model_name: str):
+
+def transcribe_video_orchestrator(url: str,  model_name: str, time_now: str):
     if is_youtube_url(url):
         video = download_youtube_video(url)
     else:
@@ -18,6 +23,11 @@ def transcribe_video_orchestrator(url: str,  model_name: str):
 
             video = {"name": video_name,
                      "thumbnail": video_thumbnail, "path": video_path}
+
+            new_path = LOG_VIDEO_PATH + video_name
+            save_path = LOG_VIDEO_PATH + time_now + "__" + video_name
+            shutil.copy(video_path, new_path)
+            os.rename(new_path, save_path)
 
     transcription = transcribe(video, model_name)
     return transcription
@@ -33,10 +43,10 @@ def transcribe_streaming(audio, model_name="medium"):
     print("Using model: ", model_name)
 
     model = whisper.load_model(model_name)
-    result = model.transcribe(audio, )
+    result = model.transcribe(audio)
 
     pprint(result)
-    return result["text"]
+    return result
 
 
 def transcribe(video: dict, model_name="medium"):
@@ -44,10 +54,10 @@ def transcribe(video: dict, model_name="medium"):
     print("Using model: ", model_name)
 
     model = whisper.load_model(model_name)
-    result = model.transcribe(video['path'], )
+    result = model.transcribe(video['path'], language="Vietnamese")
 
     pprint(result)
-    return result["text"]
+    return result
 
 
 def download_youtube_video(youtube_url: str) -> dict:

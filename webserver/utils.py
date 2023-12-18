@@ -1,4 +1,6 @@
+import os
 import re
+import json
 # from supabaseClient import getTranscription
 
 
@@ -30,3 +32,15 @@ def get_token(header):
         raise ValueError('Invalid token')
 
     return header[len(PREFIX):]
+
+
+def write_json(data_key, data_value, filename="logs/log_transcript_output.json"):
+    if not os.path.exists(filename):
+        with open(filename, "w", encoding='utf-8') as file:
+            json.dump({"OUTPUT": "LOGS_TRANSCRIPT"}, file, ensure_ascii=False)
+
+    with open(filename, 'r+', encoding='utf-8') as file:
+        file_data = json.load(file)
+        file_data[data_key] = data_value
+        file.seek(0)
+        json.dump(file_data, file, indent=4, ensure_ascii=False)
